@@ -1,0 +1,15 @@
+volumes:
+  pgdata:
+
+services:
+  postgres:
+    container_name: db
+    restart: unless-stopped
+    image: postgres:12-alpine
+    volumes:
+      - pgdata:/data:delegated
+    environment:
+      PGDATA: /data
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5432:5432

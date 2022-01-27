@@ -3,7 +3,6 @@ import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { getArcaneInfos, ArcaneDataType } from '../lib/arcane'
 import Link from 'next/link'
-import Date from '../components/date'
 import { GetStaticProps, GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 
@@ -31,7 +30,7 @@ export default function Home({
               </Link>
               <br />
               <small className={utilStyles.lightText}>
-                <Date dateString={episode.air_date} />
+                Note : //Get the note async 
               </small>
             </li>
           ))}
