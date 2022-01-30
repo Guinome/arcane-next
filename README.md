@@ -1,9 +1,9 @@
 Tilalilalou
 
-`docker-compose up -d`
-`psql -p 5432 -h db -U postgres -c "CREATE DATABASE \"arcane\" OWNER postgres"`
-`npx prisma migrate`
-`yarn up`
+`docker-compose up -d`  
+`psql -p 5432 -h db -U postgres -c "CREATE DATABASE \"arcane\" OWNER postgres"`  
+`npx prisma migrate`  
+`yarn up` 
 
 2 hours later this is where I am, 
 - List of episodes from external api on main page
