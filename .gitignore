@@ -6,6 +6,8 @@
 # next.js
 /.next/
 
+/dist/
+
 # misc
 .DS_Store
 *.pem

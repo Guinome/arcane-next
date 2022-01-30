@@ -1,38 +1,47 @@
-import Layout from '../../components/layout'
-import axios from 'axios'
-import utilStyles from '../../styles/utils.module.css'
-import { EpisodeType } from '../../lib/arcane'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+import Layout from '../../components/layout'
+import { EpisodeType, getEpisode, getEpisodeNote } from '../../lib/arcane'
 
-export default function Post({
-  episode
+export default function Episode({
+  episode,
+  note
 }: {
   episode: EpisodeType
-}) {
+  note
+}) {  
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
   return (
     <Layout title={episode.name} description={episode.overview}>
-      <article>
-        <h1 className={utilStyles.headingXl}>{episode.name}</h1>
-        <div className={utilStyles.lightText}>
-          <p>{episode.overview}</p>
-          <div>{episode.vote_average}❤️ ({episode.vote_count} votes)</div>
+      <article className="py-2 mb-2">
+        <div>
+          <p className='mb-3'>{episode.overview}</p>
+          <div className='mb-3'>{note?.note} ({note?.count} votes)</div>
+          <button 
+            type='button' 
+            className='inline-flex items-center px-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+            onClick={async () => {
+              axios.post(`/api/vote/${episode.id}`)
+                .then(() => refreshData())
+            }}>Vote for {episode.name}</button>
         </div>
       </article>
     </Layout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => ({
-  props: {
-    episode : await getEpisode(params.id)
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const episode = await getEpisode(params.id)
+  const note = await getEpisodeNote(episode.id)
+  return {
+    props: {
+      episode,
+      note,
+    }
   }
-})
-
-
-async function getEpisode(id): Promise<EpisodeType> {
-  const { data } = await axios.get(
-    `https://api.themoviedb.org/3/tv/94605/season/1/episode/${id}?api_key=2f0dc80917b2cc0c71331a0411fec000`
-  )
-
-  return data
 }

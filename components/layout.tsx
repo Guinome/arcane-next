@@ -1,7 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
 export default function Layout({
@@ -16,34 +13,36 @@ export default function Layout({
   description: string
 }) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <meta
-          name="description"
-          content={description}
-        />
-        <meta name="og:title" content={title} />
-        <meta name="twitter:card" content="summary_large_image" />
-      </Head>
-      <header className={styles.header}>
-        {(
-          <>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{title}</a>
-              </Link>
-            </h2>
-          </>
+    <div className='min-h-screen bg-gray-50 py-6 flex flex-col justify-center relative'>
+      <div className='px-6 pt-10 pb-8 bg-white shadow-xl ring-1 sm:max-w-lg sm:mx-auto sm:rounded-lg sm:px-10'>
+        <Head>
+          <meta
+            name="description"
+            content={description}
+          />
+          <meta name="og:title" content={title} />
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
+        <header>
+          {(
+            <>
+              <h1 className='text-2xl font-bold leading-7 mb-2'>
+                <Link href="/">
+                  <a>{title}</a>
+                </Link>
+              </h1>
+            </>
+          )}
+        </header>
+        <main>{children}</main>
+        {!home && (
+          <div>
+            <Link href="/">
+              <a className='font-medium text-indigo-600 hover:text-indigo-500'>← Back to home</a>
+            </Link>
+          </div>
         )}
-      </header>
-      <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
+      </div>
     </div>
   )
 }
